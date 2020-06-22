@@ -1,14 +1,24 @@
-from flask import Flask, url_for, request, send_file, redirect, abort
-
-app = Flask(__name__)
-
+from flask import url_for, request, send_file, redirect, abort, render_template
+from app import app
 
 @app.route('/')
 @app.route('/index')
-def main_page():
-    return 'Hey, Max!'
+def index():
+    user = {'username': 'Maxim'}
+    title = 'My Flask App'
 
-@app.route('/hello/<name>')
+    posts = [
+        {'author': {'username': 'Maxim'},
+        'body': 'Hello, folks!'},
+        {'author': {'username': 'James'},
+        'body': 'Dont shake martiny, pal!'},
+        {'author': {'username': 'Julie'},
+        'body': 'Im crying!'}
+    ]
+
+    return render_template('index.html', title=title, user=user, posts=posts)
+
+""" @app.route('/hello/<name>')
 def hello_name(name):
     return f"Hello, {name}"
 
@@ -54,7 +64,6 @@ def redirected():
 @app.route('/aborted-page')
 def aborted_page():
     abort(401)
-    this_is_never_executed()
 
 
 @app.errorhandler(404)
@@ -69,4 +78,4 @@ if __name__ == "__main__":
     app.run(port=8080)
 
 
-#app.run(host, port, debug, options)
+#app.run(host, port, debug, options) """
