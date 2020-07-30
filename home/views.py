@@ -1,9 +1,11 @@
 from flask import url_for, request, send_file, redirect, abort, render_template, flash, make_response, session
-from myapp import app, db
-from myapp.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, logout_user, login_required
-from myapp.models import User
 from werkzeug.urls import url_parse
+
+from run import app, db
+
+from home.forms import LoginForm, RegistrationForm
+from home.models import User
 
 
 # @app.route('/setcookie')
@@ -40,7 +42,7 @@ from werkzeug.urls import url_parse
 
 @app.route('/')
 # @app.route('/index')
-@login_required
+# @login_required
 def index():
     # if 'username' in session:
     #     return '<h1>Session %s</h1>'% session['username']
