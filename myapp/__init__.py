@@ -15,4 +15,11 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login'
 
-from myapp import views
+import views
+
+if __name__ == '__main__':
+    with app.test_request_context():
+        print(url_for('index'))
+        print(url_for('path1'))
+        print(url_for('path2'))
+    app.run()

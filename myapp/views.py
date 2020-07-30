@@ -39,7 +39,7 @@ from werkzeug.urls import url_parse
 
 
 @app.route('/')
-@app.route('/index')
+# @app.route('/index')
 @login_required
 def index():
     # if 'username' in session:
@@ -97,18 +97,21 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Регистрация', form=form)
 
-
-""" @app.route('/hello/<name>')
+"""
+@app.route('/hello/<name>')
 def hello_name(name):
     return f"Hello, {name}"
+
 
 @app.route('/catalog/<int:item_id>')
 def catalog_item(item_id):
     return "Number in catalog: %d" % item_id
 
+
 @app.route('/versions/<float:version>')
 def versions(version):
     return "Version number: %f" % version
+"""
 
 @app.route('/path1/')
 def path1():
@@ -118,22 +121,23 @@ def path1():
 def path2():
     return "This is path2"
 
+
 @app.route('/url_for-test')
 def url_for_test():
-    return url_for('main_page')
+    return url_for('index')
 
-@app.route('/login.html')
-def send_login():
-    return send_file('login.html')
+# @app.route('/login.html')
+# def send_login():
+#     return send_file('login.html')
 
-@app.route('/login', methods=['POST', 'GET'])
-def login():
-    if request.method == 'POST':
-        user = request.form['name']
-        return 'POST request with user = %s' % user
-    else:
-        user = request.args.get('name')
-        return 'GET request with user = %s' % user
+# @app.route('/login', methods=['POST', 'GET'])
+# def login():
+#     if request.method == 'POST':
+#         user = request.form['name']
+#         return 'POST request with user = %s' % user
+#     else:
+#         user = request.args.get('name')
+#         return 'GET request with user = %s' % user
 
 
 #redirect(location, statuscode, response)
@@ -149,13 +153,3 @@ def aborted_page():
 @app.errorhandler(404)
 def page_not_found(error):
     return "No such page!!!", 404
-
-if __name__ == "__main__":
-    with app.test_request_context():
-        print(url_for('main_page'))
-        print(url_for('path1'))
-        print(url_for('path2'))
-    app.run(port=8080)
-
-
-#app.run(host, port, debug, options) """
