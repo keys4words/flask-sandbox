@@ -8,6 +8,6 @@ from myapp.config import DevConfig
 
 
 app = Flask(__name__)
-app.config.from_object(DevConfig())
+app.config.from_object('myapp.config.DevConfig')
 
 from myapp.views import *
