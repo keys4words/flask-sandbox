@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block header %}
+    {%if context.title %}
+        <h1>{{ context.title }}</h1>
+    {% else %}
+    <h1>Default</h1>
+    {% endif %}
+{% endblock %}
+{% block content %}
+<ul>
+    {% for post in posts %}
+    <li>
+        <div>
+            <p>{{ post.author.username }}</p>
+            <p>{{ post.body }}</p>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

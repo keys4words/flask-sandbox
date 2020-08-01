@@ -1,9 +1,22 @@
 from flask import render_template, request, url_for, send_file, redirect, abort
+
 from myapp import app
 
 @app.route('/')
 def index():
-    return render_template('base.html')
+    posts = [
+        {'author':{'username': 'Nicolas'},
+        'body': 'shit happens'
+        },
+        {'author': {'username': 'James Bond'},
+         'body': 'From Russia with love'
+         },
+        {'author': {'username': 'Peter Penn'},
+         'body': 'I am always want to be fly'
+         }
+    ]
+    context = {'user': 'Maxim'}
+    return render_template('index.html', context=context, posts=posts)
 
 @app.route('/login.html')
 def send_login():
