@@ -1,6 +1,7 @@
 from flask import render_template, request, url_for, send_file, redirect, abort
 
 from myapp import app
+from myapp.forms import LoginForm
 
 @app.route('/')
 def index():
@@ -18,25 +19,26 @@ def index():
     context = {'user': 'Maxim'}
     return render_template('index.html', context=context, posts=posts)
 
-@app.route('/login.html')
-def send_login():
-    return render_template('login.html')
-
-
-@app.route('/login', methods=['POST', 'GET'])
+@app.route('/login')
 def login():
-    if request.method == 'POST':
-        user = request.form['username']
-        psw = request.form['password']
-        return f'POST: User {user} -> {psw}'
-    else:
-        user = request.args.get('username')
-        psw = request.args.get('password')
-        return f'GET: User {user} -> {psw}'
+    form = LoginForm()
+    return render_template('login.html', form=form)
 
-@app.route('/redirect-to-login-page')
-def redirected():
-    return redirect(url_for('send_login'))
+
+# @app.route('/login', methods=['POST', 'GET'])
+# def login():
+#     if request.method == 'POST':
+#         user = request.form['username']
+#         psw = request.form['password']
+#         return f'POST: User {user} -> {psw}'
+#     else:
+#         user = request.args.get('username')
+#         psw = request.args.get('password')
+#         return f'GET: User {user} -> {psw}'
+
+# @app.route('/redirect-to-login-page')
+# def redirected():
+#     return redirect(url_for('send_login'))
 
 @app.route('/aborted-page')
 def aborted_page():
