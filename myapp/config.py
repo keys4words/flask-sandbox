@@ -5,7 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class BaseConfig():
     API_PREFIX = '/api'
     TESTING = False
-    DEBUG = False
+    DEBUG = True
 
 
 class DevConfig(BaseConfig):

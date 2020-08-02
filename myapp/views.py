@@ -1,4 +1,4 @@
-from flask import render_template, request, url_for, send_file, redirect, abort
+from flask import render_template, request, url_for, send_file, redirect, abort, flash
 
 from myapp import app
 from myapp.forms import LoginForm
@@ -19,9 +19,12 @@ def index():
     context = {'user': 'Maxim'}
     return render_template('index.html', context=context, posts=posts)
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
+    form = LoginForm(csrf_enabled=False)
+    if form.validate_on_submit():
+        flash('Login request for user {}, remember me - {}'.format(form.username.data, form.remember_me.data))
+        return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
 
