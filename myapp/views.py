@@ -28,6 +28,13 @@ def login():
     return render_template('login.html', form=form)
 
 
+@app.route('/thankyou', methods=['POST'])
+def thank_you():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    remember_me = request.form.get('rememember_me')
+    return render_template('thankyou.html', username=username, password=password, remember_me=remember_me)
+
 # @app.route('/login', methods=['POST', 'GET'])
 # def login():
 #     if request.method == 'POST':

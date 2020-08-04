@@ -15,21 +15,28 @@
       integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <title>Flask Sandbox</title>
   </head>
   <body class="d-flex flex-column h-100">
     {% include 'navbar.html' %}
-    <main class="flex-shrink-0">
-      <div class="container">
-        {% with messages = get_flashed_messages() %} {% if messages %}
+    <main class="main">
+      <div class="container py-3">
+        {% with messages = get_flashed_messages() %} 
+        {% if messages %}
         <ul>
           {% for message in messages %}
           <li>{{ message }}</li>
           {% endfor %}
         </ul>
-        {% endif %} {% endwith %} {% block header %} {% endblock %} {% block
-        content %} {% endblock %}
+        {% endif %} 
+        {% endwith %} 
+
+        {% block header %}
+        {% endblock %}
+        {% block content %}
+        {% endblock %}
       </div>
     </main>
     <!-- Footer -->
