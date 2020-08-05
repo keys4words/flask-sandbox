@@ -23,7 +23,7 @@ def index():
 def login():
     form = LoginForm(csrf_enabled=False)
     if form.validate_on_submit():
-        flash('Login request for user {}, remember me - {}'.format(form.username.data, form.remember_me.data))
+        flash('Login request for user {}, with pass {}, remember me - {}'.format(form.username.data, form.password.data, form.remember_me.data))
         return redirect(url_for('index'))
     return render_template('login.html', form=form)
 

@@ -11,13 +11,14 @@ class BaseConfig():
 class DevConfig(BaseConfig):
     FLASK_ENV = 'development'
     DEBUG = True
+    SECRET_KEY = 'something-ultimately-secret'
+    
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     CELERY_BROKER = 'pyamqp://rabbit_user:rabbit_password@broker-rabbitmq//'
     CELERY_RESULT_BACKEND = 'rpc://rabbit_user:rabbit_password@broker-rabbitmq//'
 
-    SECRET_KEY = 'something-ultimately-secret'
 
 
 class ProductionConfig(BaseConfig):
