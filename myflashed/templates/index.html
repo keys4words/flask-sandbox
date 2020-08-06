@@ -13,22 +13,18 @@
   <body>
       <div class="container">
           <h1>Home page</h1>
-          <hr>
-          <form method="post">
-            {{ form.hidden_tag() }}
-            {% for message in get_flashed_messages() %}
+          {% for message in get_flashed_messages() %}
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            Your breed is <strong>{{ message }}</strong>
+            <strong>{{ message }}</strong> Additional text
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
             </div>
           {% endfor %}
-            <div class="form-group">
-                <label for="breed">{{ form.breed.label }}</label>
-                {{ form.breed(class_="form-control") }}
-            </div>
-            {{ form.submit(class_="btn btn-primary") }}
+          <hr>
+          <form method="post">
+              {{ form.hidden_tag() }}
+              {{ form.submit() }}
           </form>
       </div>
 

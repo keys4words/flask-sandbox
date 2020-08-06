@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash, redirect, url_for, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 
@@ -16,7 +16,10 @@ def index():
     form = InfoForm()
     if form.validate_on_submit():
         breed = form.breed.data
+        session['breed'] = form.breed.data
+        flash(f'{breed}')
         form.breed.data = ''
+        return redirect(url_for('index'))
     return render_template('home.html', form=form, breed=breed)
 
 if __name__ == "__main__":
