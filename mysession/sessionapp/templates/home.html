@@ -14,7 +14,20 @@
       <div class="container">
           <h1>Session App</h1>
           <hr>
-          <p>{{ content }}</p>
+          <{% for message in get_flashed_messages() %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong> Additional text
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+        {% endfor %}
+        <hr>
+        <form method="post">
+            {{ form.hidden_tag() }}
+            
+            {{ form.submit() }}
+        </form>
       </div>
 
     <!-- Optional JavaScript -->
