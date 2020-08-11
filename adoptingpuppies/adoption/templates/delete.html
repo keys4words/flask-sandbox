@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <h1>You want to adopt the puppy?</h1>
+    <hr>
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label for="pup_id">{{ form.id.label }}</label>
+            {{ form.id(class_="form-control") }}
+        </div>
+        {{ form.submit(class_="btn btn-primary") }}
+    </form>
+{% endblock %}

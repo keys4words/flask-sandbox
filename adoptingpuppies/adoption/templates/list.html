@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <h1>List of our Puppies</h1>
+    <hr>
+{% endblock %}
+
+{% block content %}
+    <ul class="list-group mb-4">
+        {% for pup in puppies %}
+        <li class="list-group-item">{{ pup }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

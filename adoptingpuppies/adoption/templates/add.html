@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <h1>Add a new puppy</h1>
+    <hr>
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label for="name">{{ form.name.label }}</label>
+            {{ form.name(class_="form-control") }}
+        </div>
+        {{ form.submit(class_="btn btn-primary") }}
+    </form>
+{% endblock %}
