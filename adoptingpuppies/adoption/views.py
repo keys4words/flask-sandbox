@@ -1,8 +1,8 @@
 from flask import render_template, url_for, redirect
 
 from app import app, db
-from forms import AddForm, DelForm
-from models import Puppy
+from forms import AddForm, DelForm, AddOwnerForm
+from models import Puppy, Owner
 
 @app.route('/')
 def index():
@@ -20,6 +20,22 @@ def add_puppy():
 
         return redirect(url_for('list_puppies'))
     return render_template('add.html', form=form)
+
+
+@app.route('/add_owner', methods=['GET', 'POST'])
+def add_owner():
+    form = AddOwnerForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        id_puppy = form.id_puppy.data
+        new_owner = Owner(name, id_puppy)
+
+        db.session.add(new_owner)
+        db.session.commit()
+
+        return redirect(url_for('list_puppies'))
+    return render_template('add_owner.html', form=form)
+
 
 @app.route('/list')
 def list_puppies():
