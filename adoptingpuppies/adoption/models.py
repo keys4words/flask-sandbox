@@ -1,4 +1,4 @@
-from app import db
+from adoption import db
 
 class Puppy(db.Model):
     __tablename__ = 'puppies'
