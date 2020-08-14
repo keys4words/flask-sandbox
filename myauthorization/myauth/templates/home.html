@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <h1>Welcome to Home Page</h1>
+    <hr>
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    {% if current_user.is_authenticated %}
+        <h2>{{ current_user.username }} are logged in!</h2>
+    {% else %}
+        <h2>Please login or register</h2>
+    {% endif %}
+</div>
+{% endblock %}
