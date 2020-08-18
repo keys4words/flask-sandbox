@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="actions" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="row">
+      </div>
+    </div>
+  </section>
+
+  <!-- login -->
+  <section id="categories">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Welcome to the page, {{  user.username }}</h4>
+                    <div class="text-center">
+                        <img src="{{ url_for('static', filename='profile_pics/' + user.profile_image) }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+      
+  <section id="posts">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <h4>Latest Posts</h4>
+            </div>
+            <table class="table table-striped">
+              <thead class="thead-dark">
+                <tr>
+                  <th>#</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Date</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for post in blog_posts.items %}
+                <tr>
+                  <td>{{ post.id }}</td>
+                  <td>{{ post.title }}</td>
+                  <td>Written by: <a href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a></td>
+                  <td class="text-muted">{{ post.date.strftime("%d %m %Y") }}</td>
+                  <td>{{ post.text }}</td>
+                  <td>
+                    <a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}" class="btn btn-secondary">
+                      <i class="fas fa-angle-double-right"></i> Details
+                    </a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- pagination -->
+      <nav class="ml-4">
+        <ul class="pagination">
+            {% for page_num in blog_posts.iter_pages(left_edge=1, left_current=1, right_current=2) %}
+                {% if blog_posts.page == page_num %}
+                    <li class="page-item disabled">
+                        <a href="{{ url_for('users.user_posts', username=user.username, page=page_num)  }}" class="page-link">{{ page_num }}</a>
+                    </li>
+                {% else %}
+                <li class="page-item">
+                    <a href="{{ url_for('users.user_posts', username=user.username, page=page_num)  }}" class="page-link">{{ page_num }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+    </div>
+  </section>
+
+{% endblock %}

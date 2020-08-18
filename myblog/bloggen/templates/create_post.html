@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="actions" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="row">
+      </div>
+    </div>
+  </section>
+
+  <!-- login -->
+  <section id="categories">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Create Post</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            <label for="title">{{ form.title.label }}</label>
+                            {{ form.title(class_="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            <label for="text">{{ form.text.label }}</label>
+                            {{ form.text(class_="form-control") }}
+                        </div>
+                        
+                        {{ form.submit(class_="btn btn-primary btn-block") }}
+                    </form>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>    
+
+{% endblock %}

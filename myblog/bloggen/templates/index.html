@@ -4,36 +4,7 @@
     <section id="actions" class="py-4 mb-4 bg-light">
         <div class="container">
           <div class="row">
-            <div class="col-md-3">
-              <a
-                href="#"
-                class="btn btn-danger btn-block"
-                data-toggle="modal"
-                data-target="#addPostModal"
-              >
-                <i class="fas fa-plus"></i> Add Post
-              </a>
-            </div>
-            <div class="col-md-3">
-              <a
-                href="#"
-                class="btn btn-warning btn-block"
-                data-toggle="modal"
-                data-target="#addCategoryModal"
-              >
-                <i class="fas fa-plus"></i> Add Category
-              </a>
-            </div>
-            <div class="col-md-3">
-              <a
-                href="#"
-                class="btn btn-success btn-block"
-                data-toggle="modal"
-                data-target="#addUserModal"
-              >
-                <i class="fas fa-plus"></i> Add User
-              </a>
-            </div>
+            
           </div>
         </div>
       </section>
@@ -58,72 +29,20 @@
                     </tr>
                   </thead>
                   <tbody>
+                    {% for post in blog_posts.items %}
                     <tr>
-                      <td>1</td>
-                      <td>Post One</td>
-                      <td>Web Development</td>
-                      <td>May 10, 2019</td>
+                      <td>{{ post.id }}</td>
+                      <td>{{ post.title }}</td>
+                      <td>Written by: <a href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a></td>
+                      <td>{{ post.date.strftime('%d %B %Y') }}</td>
+                      <!-- <p>{{ post.text }}</p> -->
                       <td>
-                        <a href="detail.html" class="btn btn-secondary">
+                        <a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}" class="btn btn-secondary">
                           <i class="fas fa-angle-double-right"></i> Details
                         </a>
                       </td>
                     </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Post Two</td>
-                      <td>Tech Gadgets</td>
-                      <td>Jan 10, 2020</td>
-                      <td>
-                        <a href="detail.html" class="btn btn-secondary">
-                          <i class="fas fa-angle-double-right"></i> Details
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>Post Three</td>
-                      <td>Business</td>
-                      <td>June 10, 2019</td>
-                      <td>
-                        <a href="detail.html" class="btn btn-secondary">
-                          <i class="fas fa-angle-double-right"></i> Details
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td>Post Four</td>
-                      <td>Health</td>
-                      <td>March 4, 2020</td>
-                      <td>
-                        <a href="detail.html" class="btn btn-secondary">
-                          <i class="fas fa-angle-double-right"></i> Details
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>5</td>
-                      <td>Post Five</td>
-                      <td>Health</td>
-                      <td>May 10, 2019</td>
-                      <td>
-                        <a href="detail.html" class="btn btn-secondary">
-                          <i class="fas fa-angle-double-right"></i> Details
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>6</td>
-                      <td>Post Six</td>
-                      <td>Web Development</td>
-                      <td>March 10, 2019</td>
-                      <td>
-                        <a href="detail.html" class="btn btn-secondary">
-                          <i class="fas fa-angle-double-right"></i> Details
-                        </a>
-                      </td>
-                    </tr>
+                    {% endfor %}
                   </tbody>
                 </table>
               </div>
@@ -158,6 +77,22 @@
               </div>
             </div>
           </div>
+          <!-- pagination -->
+          <nav class="ml-4">
+            <ul class="pagination">
+                {% for page_num in blog_posts.iter_pages(left_edge=1, left_current=1, right_current=2) %}
+                    {% if blog_posts.page == page_num %}
+                        <li class="page-item disabled">
+                            <a href="{{ url_for('core.index', page=page_num)  }}" class="page-link">{{ page_num }}</a>
+                        </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a href="{{ url_for('core.index', page=page_num)  }}" class="page-link">{{ page_num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
         </div>
       </section>
 
