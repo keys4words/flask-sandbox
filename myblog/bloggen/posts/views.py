@@ -7,6 +7,12 @@ from bloggen.posts.forms import BlogPostForm
 
 blog_posts = Blueprint('blog_posts', __name__)
 
+@blog_posts.route('/posts', methods=['GET', 'POST'])
+def posts():
+    all_posts = BlogPost.query.all()
+    return render_template('posts.html', all_posts=all_posts)
+    
+
 @blog_posts.route('/create', methods=['GET', 'POST'])
 @login_required
 def create_post():

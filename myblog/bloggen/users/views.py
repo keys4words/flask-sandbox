@@ -9,6 +9,12 @@ from bloggen.users.picture_handler import add_profile_pic
 
 users = Blueprint('users', __name__)
 
+@users.route('/users', methods=['GET', 'POST'])
+def list_users():
+    all_users = User.query.all()
+    return render_template('users.html', all_users=all_users)
+
+
 @users.route('/logout')
 def logout():
     logout_user()

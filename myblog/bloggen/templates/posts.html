@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <!-- header -->
+    <header id="main-header" class="py-2 bg-danger text-white">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h1><i class="fas fa-pencil-alt"></i> Posts</h1>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- search -->
+    <section id="search" class="py-4 mb-4 bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 ml-auto">
+              <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search Posts...">
+                  <div class="input-group-append">
+                      <button class="btn btn-danger">Search</button>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
+
+{% block content %}
+    <!-- posts -->
+    <section id="posts">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                <h4>List of Posts</h4>
+              </div>
+              <table class="table table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for post in all_posts %}
+                    <tr>
+                      <td>{{ post.id }}</td>
+                      <td><a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}">{{ post.title }}</a></td>
+                      <td>Written by: <a href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a></td>
+                      <td>{{ post.date.strftime('%d %B %Y') }}</td>
+                      <td>
+                        <a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}" class="btn btn-secondary">
+                          <i class="fas fa-angle-double-right"></i> Details
+                        </a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+
+              <!-- pagination -->
+              <nav class="ml-4">
+                  <ul class="pagination">
+                      <li class="page-item disabled">
+                          <a href="#" class="page-link">Previous</a>
+                      </li>
+                      <li class="page-item active">
+                          <a href="#" class="page-link">1</a>
+                      </li>
+                      <li class="page-item">
+                          <a href="#" class="page-link">2</a>
+                      </li>
+                      <li class="page-item">
+                          <a href="#" class="page-link">3</a>
+                      </li>
+                      <li class="page-item">
+                          <a href="#" class="page-link">Next</a>
+                      </li>
+                  </ul>
+              </nav>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
