@@ -1,14 +1,20 @@
 from flask import Flask
 from flask_restful import Resource, Api
+from secure_check import authenticate, identity
+from flask_jwt import JWT, jwt_required
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'verysecretkey'
+
 api = Api(app)
+jwt = JWT(app, authenticate, identity)
 
 # {'name': 'Bobik'}
 puppies = []
 
 class PuppyNames(Resource):
+
     def get(self, name):
         for pup in puppies:
             if pup['name'] == name:
@@ -28,6 +34,7 @@ class PuppyNames(Resource):
 
 
 class AllNames(Resource):
+    @jwt_required()
     def get(self):
         return {'puppies': puppies}
 
