@@ -1,7 +1,9 @@
+# add bulk
+session.add_all([])
+
 # equal & not equal
 Member.query.filter(Member.id == 3).first()
 Member.query.filter(Member.id >= 3).all()
-
 
 # like
 Member.query.filter(Member.email.like('%pattern%')).all()
