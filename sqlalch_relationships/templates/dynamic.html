@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Movie Page</title>
+</head>
+
+<body>
+    <h1 id="title">Movie</h1>
+    <button id="getMovie1">Movie One</button>
+    <button id="makemovie">Make Spider-Man</button>
+    <div id="movie">
+
+    </div>
+
+    <script>
+
+        function makeRequest(method, url, data, callback) {
+            var req = new XMLHttpRequest();
+
+            req.onreadystatechange = function () {
+                callback(req);
+            }
+
+            req.open(method, url);
+
+            if (data) {
+                req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                req.send(data);
+            } else {
+                req.send();
+            }
+        }
+
+        document.getElementById('getMovie1').addEventListener('click',
+            function () {
+                makeRequest('GET', '/api/movies/1', null, function(localReq) {
+                if (localReq.readyState === XMLHttpRequest.DONE) {
+                    if (localReq.status >= 200 && localReq.status < 300) {
+                        var m = JSON.parse(localReq.response);
+                        console.log(m);
+
+                        document.getElementById('title').textContent = m.title;
+                    } else if (localReq.status >= 500) {
+                        console.log("There was a problem on the server.")
+                    }
+                }
+            });
+            }
+        );
+
+        document.getElementById('makemovie').addEventListener('click',
+            function () {
+                makeRequest('POST', '/api/movies/', "title=Spider-Man", function(localReq) {
+                if (localReq.readyState === XMLHttpRequest.DONE) {
+                    if (localReq.status >= 200 && localReq.status < 300) {
+                        var m = JSON.parse(localReq.response);
+                        console.log(m);
+
+                        document.getElementById('title').textContent = m.title;
+                    } else if (localReq.status >= 500) {
+                        console.log("There was a problem on the server.")
+                    }
+                }
+            });
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
