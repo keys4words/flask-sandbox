@@ -7,8 +7,8 @@ from flask_migrate import Migrate
 
 
 app = Flask(__name__)
-app.config.from_object('myapp.config.DevConfig')
+app.config.from_object('config.DevConfig')
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-from myapp import views, models
+import views, models
