@@ -1,44 +1,80 @@
 {% extends "base.html" %}
-{% block content %}
-<section id="actions" class="py-4 mb-4 bg-light">
-    <div class="container">
-      <div class="row">
+
+{% block header %}
+<!-- header -->
+<header id="main-header" class="py-2 bg-primary text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1> Create/Update Post</h1>
       </div>
     </div>
-  </section>
+  </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<section id="actions" class="py-4 mb-4 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <a href="{{ url_for('core.index') }}" class="btn btn-light btn-block">
+          <i class="fas fa-arrow-left"></i> Back
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a href="{{ url_for('core.index') }}" class="btn btn-success btn-block">
+          <i class="fas fa-check"></i> Save Changes
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a href="{{ url_for('core.index') }}" class="btn btn-danger btn-block">
+          <i class="fas fa-trash"></i> Delete Post
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
   <!-- login -->
   <section id="posts">
     <div class="container">
       <div class="row">
-        <div class="col-md-6 mx-auto">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Create Post</h4>
-                </div>
-                <div class="card-body">
-                    <form method="POST">
-                        {{ form.hidden_tag() }}
-                        <div class="form-group">
-                            <label for="title">{{ form.title.label }}</label>
-                            {{ form.title(class_="form-control") }}
-                        </div>
-                        <div class="form-group">
-                          <label for="category">{{ form.category.label }}</label>
-                          {{ form.category(class_="form-control") }}
-                      </div>
-                        <div class="form-group">
-                            <label for="text">{{ form.text.label }}</label>
-                            {{ form.text(class_="form-control") }}
-                        </div>
-                        
-                        {{ form.submit(class_="btn btn-primary btn-block") }}
-                    </form>
-                </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+                <h4>Create/Edit Post</h4>
             </div>
+            <div class="card-body">
+              <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                  <label for="title">{{ form.title.label }}</label>
+                  {{ form.title(class_="form-control") }}
+                </div>
+                <div class="form-group">
+                  <label for="category">{{ form.category.label }}</label>
+                  {{ form.category(class_="form-control") }}
+                  <!-- <label for="category">Category</label>
+                  <select class="form-control">
+                    <option value="" selected>Web Development</option>
+                    <option value="">Tech Gadgets</option>
+                    <option value="">Business</option>
+                    <option value="">Health</option>
+                  </select> -->
+                </div>
+                <div class="form-group">
+                  <div class="form-group">
+                    <label for="text">{{ form.text.label }}</label>
+                    {{ form.text(class_="form-control") }}
+                  </div>
+                </div>
+                {{ form.submit(class_="btn btn-primary btn-block") }}
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>    
-
 {% endblock %}
