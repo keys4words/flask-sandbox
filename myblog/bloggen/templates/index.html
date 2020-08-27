@@ -67,14 +67,14 @@
                       <td><a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}">{{ post.title }}</a></td>
                       <td>
                         {% if post.categories != [] %}
-                        {% for category in post.categories.items %}
+                        {% for category in post.categories %}
                             <a href="#">
-                              {{ category.name }}
+                              {{ category.category_name }}
                             </a>
                             {% endfor %}
-                          {% else %}
+                        {% else %}
                           Empty
-                          {% endif %}
+                        {% endif %}
                       </td>
                       <td>Written by: <a href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a></td>
                       <td>{{ post.date.strftime('%d %B %Y') }}</td>
@@ -95,7 +95,7 @@
                 <div class="card-body">
                   <h3>Posts</h3>
                   <h4 class="display-4">
-                    <i class="fas fa-pencil-alt"></i> 6
+                    <i class="fas fa-pencil-alt"></i> {{ qty_posts }}
                   </h4>
                   <a href="{{ url_for('blog_posts.posts') }}" class="btn btn-outline-light btn-sm">View</a>
                 </div>
@@ -104,7 +104,7 @@
                 <div class="card-body">
                   <h3>Categories</h3>
                   <h4 class="display-4">
-                    <i class="fas fa-folder"></i> 4
+                    <i class="fas fa-folder"></i> {{ qty_cats }}
                   </h4>
                   <a href="categories.html" class="btn btn-outline-light btn-sm">View</a>
                 </div>
@@ -113,7 +113,7 @@
                 <div class="card-body">
                   <h3>Users</h3>
                   <h4 class="display-4">
-                    <i class="fas fa-users"></i> 2
+                    <i class="fas fa-users"></i> {{ qty_users }}
                   </h4>
                   <a href="{{ url_for('users.list_users') }}" class="btn btn-outline-light btn-sm">View</a>
                 </div>
