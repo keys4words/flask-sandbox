@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 
 from bloggen import db
-from bloggen.models import User, BlogPost
+from bloggen.models import User, Blogpost
 from bloggen.users.forms import RegistrationForm, LoginForm, UpdateUserForm
 from bloggen.users.picture_handler import add_profile_pic
 
@@ -80,5 +80,5 @@ def account():
 def user_posts(username):
     page = request.args.get('page', 1, type=int)
     user = User.query.filter_by(username=username).first_or_404()
-    blog_posts = BlogPost.query.filter_by(author=user).order_by(BlogPost.date.desc()).paginate(page=page, per_page=5)
+    blog_posts = Blogpost.query.filter_by(author=user).order_by(Blogpost.date.desc()).paginate(page=page, per_page=5)
     return render_template('user_blog_post.html', blog_posts=blog_posts, user=user)

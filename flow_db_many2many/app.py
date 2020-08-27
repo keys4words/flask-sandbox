@@ -40,12 +40,18 @@ class Channel(db.Model):
 @app.route('/')
 def index():
     channels = Channel.query.all()
+    users = User.query.all()
     res = ''
-    for channel in channels:
-        res += channel.name + ' subscribers: {'
-        for user in channel.subscribers:
-            res += user.name + ', '
+    for user in users:
+        res += user.name + ' subscriptions: {'
+        for channel in user.subscriptions:
+            res += channel.name + ', '
         res += '}\n'
+    # for channel in channels:
+    #     res += channel.name + ' subscribers: {'
+    #     for user in channel.subscribers:
+    #         res += user.name + ', '
+    #     res += '}\n'
     return res
 
 if __name__ == "__main__":

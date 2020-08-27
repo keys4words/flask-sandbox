@@ -22,7 +22,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
-    posts = db.relationship('BlogPost', backref='author', lazy=True)
+
+    posts = db.relationship('Blogpost', backref='author', lazy=True)
 
     def __init__(self, email, username, password):
         self.email = email
@@ -36,23 +37,20 @@ class User(db.Model, UserMixin):
         return f"Username {self.username}"
 
 
-class BlogPost(db.Model):
-    __tablename__ = 'posts'
-    users = db.relationship(User)
+class Blogpost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     title = db.Column(db.String(140), nullable=False)
     text = db.Column(db.Text, nullable=False)
 
-    categories = db.relationship('PostCategory', secondary=subs, backref=db.backref('cats', lazy='dynamic'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    categories = db.relationship('Postcategory', secondary=subs, backref=db.backref('cats', lazy='dynamic'))
 
     def __repr__(self):
         return f"Post ID: {self.id} -- Date: {self.date} -- Title: {self.title}"
 
 
-class PostCategory(db.Model):
-    __tablename__ = 'categories'
+class Postcategory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(60), default="Gadgets")
     cat_desc = db.Column(db.String(160))

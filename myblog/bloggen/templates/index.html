@@ -65,7 +65,17 @@
                     {% for post in blog_posts.items %}
                     <tr>
                       <td><a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}">{{ post.title }}</a></td>
-                      <td><a href="#">Category1</a></td>
+                      <td>
+                        {% if post.categories != [] %}
+                        {% for category in post.categories.items %}
+                            <a href="#">
+                              {{ category.name }}
+                            </a>
+                            {% endfor %}
+                          {% else %}
+                          Empty
+                          {% endif %}
+                      </td>
                       <td>Written by: <a href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a></td>
                       <td>{{ post.date.strftime('%d %B %Y') }}</td>
                       <!-- <p>{{ post.text }}</p> -->
