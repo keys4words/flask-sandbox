@@ -1,0 +1,46 @@
+{% extends "_base.html" %}
+
+{% block body %}
+<body>
+	<div class = "container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Register</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {{ form.hidden_tag() }}
+                            <div class="form-group">
+                                <label for="username">{{ form.username.label }}</label>
+                                {{ form.username(class_="form-control") }}
+                            </div>
+                            <div class="form-group">
+                                <label for="email">{{ form.email.label }}</label>
+                                {{ form.email(class_="form-control") }}
+                            </div>
+                            <div class="form-group">
+                                <label for="password">{{ form.password.label }}</label>
+                                {{ form.password(class_="form-control") }}
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm">{{ form.confirm.label }}</label>
+                                {{ form.confirm(class_="form-control") }}
+                            </div>
+                            <div class="form-group form-check">
+                                {{ form.accept_tos(class_="form-check-input") }}
+                                <label class="form-check-label" for="exampleCheck1">{{ form.accept_tos.label }}</label>
+                              </div>
+                            {{ form.submit(class_="btn btn-primary btn-block") }}
+                        </form>
+                        {% if error %}
+			                <p class="error"><strong>Error:</strong>{{error}}</p>
+		                {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</body>
+{% endblock %}

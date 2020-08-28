@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, request, redirect, url_for
+from flask import Flask, render_template, flash, request, redirect, url_for, session
 from modal_app.content_management import Content
 from modal_app.db_connect import connection
 from flask_wtf import FlaskForm
@@ -6,7 +6,9 @@ from wtforms import StringField, SubmitField, TextAreaField, PasswordField, Bool
 from wtforms.validators import DataRequired, Length, EqualTo
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from passlib.hash import sha256_crypt
+import gc
+from MySQLdb import escape_string as thwart
 
 
 TOPIC_DICT = Content()
@@ -63,6 +65,7 @@ class RegistrationForm(FlaskForm):
     ])
     confirm = PasswordField('Repeat Password')
     accept_tos = BooleanField('I accept the Terms of Service and Privacy Notice', [DataRequired()])
+    submit = SubmitField('Register')
 
 
 @app.route('/register/', methods=["GET","POST"])
@@ -76,13 +79,10 @@ def register_page():
             password = sha256_crypt.encrypt((str(form.password.data)))
             c, conn = connection()
 
-            x = c.execute("SELECT * FROM users WHERE username = (%s)",
-                          (thwart(username)))
-
+            x = c.execute("SELECT * FROM users WHERE username = (%s)", (thwart(username)))
             if int(x) > 0:
                 flash("That username is already taken, please choose another")
-                return render_template('register.html', form=form)
-
+                return render_template("register.html", form=form)
             else:
                 c.execute("INSERT INTO users (username, password, email, tracking) VALUES (%s, %s, %s, %s)",
                           (thwart(username), thwart(password), thwart(email), thwart("/introduction-to-python-programming/")))
@@ -95,7 +95,7 @@ def register_page():
 
                 session['logged_in'] = True
                 session['username'] = username
-
                 return redirect(url_for('dashboard'))
+        return render_template("register.html", form=form)
     except Exception as e:
         return(str(e))
