@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, request, redirect, url_for, session
+from flask import Flask, render_template, flash, request, redirect, url_for, session, jsonify
 from modal_app.content_management import Content
 from modal_app.db_connect import connection
 from flask_wtf import FlaskForm
@@ -15,6 +15,31 @@ TOPIC_DICT = Content()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mySecretKey'
+
+
+def userinformation():
+    try:
+        client_name = (session['username'])
+        guest = False
+    except:
+        guest = True
+        client_name = 'Guest'
+
+    if not guest:
+        try:
+            c, conn = connection()
+            c.execute("SELECT * FROM users WHERE username = (%s)", (thwart(client_name), ))
+            data = c.fetchone()
+            settings = data[4]
+            tracking = data[5]
+            rank = data[6]
+        except Exception:
+            pass
+    else:
+        settings = [0, 0]
+        tracking = [0, 0]
+        rank = [0, 0]
+    return client_name, settings, tracking, rank
 
 
 def login_required(f):
@@ -34,9 +59,21 @@ def homepage():
 
 
 @app.route('/dashboard/')
-@login_required
+# @login_required
 def dashboard():
-    return render_template("dashboard.html", TOPIC_DICT=TOPIC_DICT)
+    try:
+        try:
+            client_name, settings, tracking, rank = userinformation()
+            if len(tracking) < 10:
+                tracking = '/some-url/'
+            gc.collect()
+            if client_name == "Guest":
+                flash("Welcome, Guest! Feel free to view content. If you wanna write a post, register first")
+            return render_template("dashboard.html", TOPIC_DICT=TOPIC_DICT)
+        except Exception as e:
+            return(str(e), "Please report error")
+    except Exception as e:
+        return (str(e), "Please report error")
 
 
 @app.errorhandler(404)
@@ -139,3 +176,20 @@ def logout():
     flash('You have been logged out!')
     gc.collect()
     return redirect(url_for('homepage'))
+
+
+@app.route('/interactive/')
+def interactive():
+    return render_template('interactive.html')
+
+
+@app.route('/background_process', methods=['POST'])
+def background_process():
+    try:
+        lang = request.args.get('proglang')
+        if str(lang).lower() == 'python':
+            return jsonify(result='You are wise!')
+        else:
+            return jsonify(result='try again')
+    except Exception as e:
+        return str(e)

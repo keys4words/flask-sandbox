@@ -1,0 +1,18 @@
+{% extends "_base.html" %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card">
+                    <h3>Welcome! What is the best programming language for you?</h3>
+                    <form method="POST">
+                        <input type=text size=5 name=proglang>
+                        <a href=# id=process_input><button class='btn btn-primary'>Submit</button></a>
+                    </form>
+		            <p id=result></p>
+		        </div>
+            </div>
+        </div>
+	</div>
+{% endblock %}
