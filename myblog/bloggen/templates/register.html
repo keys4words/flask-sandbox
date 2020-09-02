@@ -1,4 +1,17 @@
 {% extends "base.html" %}
+
+{% block header %}
+  <header id="main-header" class="py-2 bg-secondary text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h1><i class="fas fa-user-plus"></i> Register</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+{% endblock %}
+
 {% block content %}
 <section id="actions" class="py-4 mb-4">
     <div class="container">
@@ -14,7 +27,7 @@
         <div class="col-md-6 mx-auto">
             <div class="card">
                 <div class="card-header">
-                    <h4>Register</h4>
+                    <h4>Register form</h4>
                 </div>
                 <div class="card-body">
                     <form method="POST">

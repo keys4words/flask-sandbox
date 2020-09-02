@@ -88,6 +88,23 @@
                     {% endfor %}
                   </tbody>
                 </table>
+
+                <!-- pagination -->
+                <nav class="ml-4">
+                  <ul class="pagination">
+                    {% for page_num in blog_posts.iter_pages(left_edge=1, left_current=1, right_current=2) %}
+                      {% if blog_posts.page == page_num %}
+                        <li class="page-item disabled">
+                            <a href="{{ url_for('core.index', page=page_num)  }}" class="page-link">{{ page_num }}</a>
+                        </li>
+                      {% else %}
+                        <li class="page-item">
+                            <a href="{{ url_for('core.index', page=page_num)  }}" class="page-link">{{ page_num }}</a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                </nav>
               </div>
             </div>
             <div class="col-md-3">
@@ -120,22 +137,7 @@
               </div>
             </div>
           </div>
-          <!-- pagination -->
-          <nav class="ml-4">
-            <ul class="pagination">
-                {% for page_num in blog_posts.iter_pages(left_edge=1, left_current=1, right_current=2) %}
-                    {% if blog_posts.page == page_num %}
-                        <li class="page-item disabled">
-                            <a href="{{ url_for('core.index', page=page_num)  }}" class="page-link">{{ page_num }}</a>
-                        </li>
-                    {% else %}
-                    <li class="page-item">
-                        <a href="{{ url_for('core.index', page=page_num)  }}" class="page-link">{{ page_num }}</a>
-                    </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </nav>
+          
         </div>
       </section>
 

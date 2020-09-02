@@ -1,3 +1,7 @@
 section#posts {
-    min-height: 650px;
+    min-height: 750px;
+}
+
+section#search, section#actions {
+    min-height: 85px;
 }
