@@ -34,6 +34,7 @@ class PopupForm(FlaskForm):
 @app.route('/')
 def index():
     members = Member.query.all()
+    
     return render_template('index.html', members=members)
 
 @app.route('/update', methods=['POST'])

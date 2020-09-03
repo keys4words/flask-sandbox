@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, request, redirect, Blueprint
 from flask_login import current_user, login_required
 from bloggen import db
 from bloggen.models import Blogpost
-from bloggen.posts.forms import BlogPostForm
+# from bloggen.posts.forms import BlogPostForm
 
 
 blog_posts = Blueprint('blog_posts', __name__)
@@ -16,7 +16,7 @@ def posts():
 @blog_posts.route('/create', methods=['GET', 'POST'])
 @login_required
 def create_post():
-    form = BlogPostForm()
+    # form = BlogPostForm()
     if form.validate_on_submit():
         blog_post = Blogpost(title=form.title.data,
                             text=form.text.data,
