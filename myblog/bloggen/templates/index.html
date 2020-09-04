@@ -169,13 +169,12 @@
             </div>
             <div class="form-group">
               <label for="category">{{ form.category.label }}</label>
-              {{ form.category(class_="form-control") }}
-              <!-- <select class="form-control">
-                <option value="">Web Development</option>
-                <option value="">Tech Gadgets</option>
-                <option value="">Business</option>
-                <option value="">Health</option>
-              </select> -->
+              <!-- {{ form.category(class_="form-control") }} -->
+              <select class="form-control">
+                {% for category in all_cats %}
+                  <option value="">{{ category.category_name }}</option>
+                {% endfor %}
+              </select>
             </div>
             <div class="form-group">
               <label for="image">Upload File</label>
@@ -194,7 +193,7 @@
         </div>
         <div class="modal-footer">
           <!-- <button class="btn btn-danger" data-dismiss="modal">Save Changes</button> -->
-          {{ form.submit(class_="btn btn-danger") }}
+          {{ form.submit(class_="btn btn-danger add-post") }}
         </div>
       </div>
     </div>

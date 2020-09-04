@@ -1,12 +1,9 @@
-
-
-
 // Get the current year for the copyright
 $("#year").text(new Date().getFullYear());
 CKEDITOR.replace('editor1');
 
 // modals
-$('input#submit').click(function(event) {
+$('input.add-post').click(function(event) {
     event.preventDefault();
     $.post('\\', data=$('#addpost').serialize(), function(data) {
       if (data.status == 'ok') {
