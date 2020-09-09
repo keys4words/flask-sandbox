@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect, render_template, url_for, make_response, request, session
+from flask import Flask, redirect, render_template, url_for, make_response, request, session, flash
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -9,7 +9,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, UserMixin
+from flask_login import LoginManager, UserMixin, current_user, login_user
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -27,8 +27,8 @@ login = LoginManager(app)
 #### Forms
 class LoginForm(FlaskForm):
     login = StringField('Enter your login', validators=[DataRequired()])
-    email = StringField('Enter your email', validators=[DataRequired()])
     password = PasswordField('Enter your password', validators=[DataRequired()])
+    remember_me = BooleanField('Remember me')
     submit = SubmitField('Login')
 
 
@@ -42,12 +42,10 @@ class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(64), index=True, unique=True)
-    email = db.Column(db.String(120), index=True, unique=True)
     pass_hash = db.Column(db.String(128))
 
-    def __init__(self, login, email, password):
+    def __init__(self, login, password):
         self.login = login
-        self.email = email
         self.pass_hash = self.set_pass(password)
 
     def set_pass(self, password):
@@ -57,7 +55,7 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.pass_hash, password)
 
     def __repr__(self):
-        return f'<User {self.login} with email {self.email}>'
+        return f'<User {self.login}>'
 
 #### Views
 @app.route('/', methods=['GET', 'POST'])
@@ -104,6 +102,11 @@ def login():
         return redirect(url_for('index'))
     form = LoginForm(csrf_enabled=True)
     if form.validate_on_submit():
+        user = User.query.filter_by(login=form.login.data).first()
+        if user is None or not user.check_pass(form.password.data):
+            flash('Incorrect login or password!')
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
         flash(f'Hello, {form.login}')
         return redirect(url_for('index'))
     return render_template('login.html', form=form)

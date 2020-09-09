@@ -5,13 +5,12 @@
 {% endblock %}
 
 {% block content %}
-  <form method="POST" action="{{ url_for('thank_you') }}" novalidate>
+  <form method="POST" action="#">
     {{ form.hidden_tag() }}
   <div class="form-group">
-    <label for="username_id">{{ form.username.label }}</label>
-    <input type="text" class="form-control" id="username_id" name="username">
-    <!-- {{ form.username }} -->
-    {% for error in form.username.errors %}
+    <label for="username_id">{{ form.login.label }}</label>
+    <input type="text" class="form-control" id="username_id" name="login">
+    {% for error in form.login.errors %}
       <p>[{{ error }}]</p>
     {% endfor %}
   </div>
