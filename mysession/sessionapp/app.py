@@ -9,7 +9,8 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, UserMixin, current_user, login_user
+from werkzeug.urls import url_parse
+from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -21,7 +22,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 Migrate(app, db)
 login = LoginManager(app)
-
+login.login_view = 'login'
 
 
 #### Forms
@@ -59,10 +60,12 @@ class User(UserMixin, db.Model):
 
 #### Views
 @app.route('/', methods=['GET', 'POST'])
+@login_required
 def index():
     content = 'No session'
     if 'username' in session:
         content = session['username']
+    content += '\t'+current_user
     return render_template('home.html', content=content)
 
 
@@ -108,8 +111,17 @@ def login():
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         flash(f'Hello, {form.login}')
-        return redirect(url_for('index'))
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('index')
+        return redirect(next_page)
     return render_template('login.html', form=form)
+
+
+@app.route('logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 
 if __name__ == "__main__":

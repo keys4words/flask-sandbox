@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Hello, {{ user.username | upper}}</h2>
+<ul class="list-group">
+    {% for post in posts %}
+    <li class="list-group-item">
+        {{ post.author.username }}
+        {{ post.body }}
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
