@@ -1,6 +1,6 @@
 from flask import render_template, url_for, redirect, flash, redirect, flash, url_for, make_response, request, session
-from app.forms import LoginForm
-from app import app
+from app.forms import LoginForm, RegistrationForm
+from app import app, db
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 from werkzeug.urls import url_parse
@@ -38,9 +38,9 @@ from werkzeug.urls import url_parse
 @app.route('/')
 @login_required
 def index():
-    if 'username' in session:
-        return f"<h1>Session: {session['username']}"
-    return "<h1>Session: No Data"
+    # if 'username' in session:
+    #     return f"<h1>Session: {session['username']}"
+    # return "<h1>Session: No Data"
 
     # user = {'username': 'James'}
     title = 'Home page'
@@ -59,9 +59,8 @@ def index():
             'body': 'Hello from James'
         },
     ]
-
-
     # return render_template('index.html', title=title, user=user, posts=posts)
+    return render_template('index.html', title=title, posts=posts)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -87,3 +86,18 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash(f"User {form.username.data} successfully registered!")
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register page', form=form)
