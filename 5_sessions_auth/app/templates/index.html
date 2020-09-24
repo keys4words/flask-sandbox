@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Hello, {{ current_user.username | upper}}</h2>
+<ul class="list-group">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <li class="list-group-item">{{ message }}</li>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+<hr>
+<ul class="list-group">
+    {% for post in posts %}
+    <li class="list-group-item">
+        {{ post.author.username }}
+        {{ post.body }}
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

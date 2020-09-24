@@ -1,0 +1,37 @@
+# add bulk
+session.add_all([])
+
+# equal & not equal
+Member.query.filter(Member.id == 3).first()
+Member.query.filter(Member.id >= 3).all()
+
+# like
+Member.query.filter(Member.email.like('%pattern%')).all()
+
+# in & not in
+Member.query.filter(Member.username.in_(['John Bond', 'Another name'])).all()
+Member.query.filter(~Member.username.in_(['John Bond', 'Another name'])).all()
+
+# null & not null
+Member.query.filter(Member.email == None).all()
+Member.query.filter(Member.email != None).all()
+
+# and
+Member.query.filter(Member.username == 'pattern').filter(Member.email == 'pattern2').all()
+Member.query.filter(Member.username == 'pattern', Member.email == 'pattern2').all()                 # other syntax
+Member.query.filter(db.and_(Member.username == 'pattern', Member.email == 'pattern2')).all()        # other syntax
+
+# or
+Member.query.filter(db.or_(Member.username == 'pattern', Member.email == 'pattern2')).all()
+
+# order by
+Member.query.order_by(Member.username).all()
+Member.query.order_by(Member.username.desc()).all()
+
+# limits & offset
+Member.query.limit(2).all()
+Member.query.offset(1).all()
+
+# count
+Member.query.count()
+
