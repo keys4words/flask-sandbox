@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Demo App</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Hello from Flask!</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque corrupti quisquam optio quam saepe quibusdam ullam repudiandae nihil vero, vel ducimus, repellat fugit earum amet, tenetur aperiam eligendi! Delectus corporis quae mollitia eaque est dolorem, ex vel reiciendis deleniti pariatur numquam! Officiis quibusdam ipsam tempora! Harum quod nihil tempora dolorem, voluptatum, consequatur accusamus, animi debitis nisi esse doloribus corrupti consectetur!</p>
+        
+        {% block main %}
+        {% endblock main %}
+        
+        <footer>Copyrights 2020</footer>
+    </div>
+</body>
+</html>

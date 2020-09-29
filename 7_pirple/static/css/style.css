@@ -1,0 +1,19 @@
+body{
+    background-color: #85FFBD;
+    background-image: linear-gradient(45deg, #85FFBD 0%, #FFFB7D 100%);
+
+}
+
+body img {
+    width: 800px;
+}
+
+.container {
+    max-width: 1500px;
+    min-height: 400px;
+    margin: 50px auto;
+}
+
+footer {
+    min-height: 150px;
+}
