@@ -7,7 +7,9 @@
     {% with messages = get_flashed_messages() %}
     {% if messages %}
         {% for message in messages %}
-            <li class="list-group-item">{{ message }}</li>
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
         {% endfor %}
     {% endif %}
     {% endwith %}
@@ -15,7 +17,7 @@
 <ul class="list-group">
     {% for post in posts %}
     <li class="list-group-item">
-        {{ post.author.username }}
+        <p class="text-muted">{{ post.author.username }}:</p>
         {{ post.body }}
     </li>
     {% endfor %}

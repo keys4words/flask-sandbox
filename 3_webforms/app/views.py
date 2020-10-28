@@ -1,4 +1,4 @@
-from flask import render_template, url_for, redirect, flash
+from flask import render_template, url_for, redirect, flash, request
 from app.forms import LoginForm
 from app import app
 
@@ -29,6 +29,8 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        flash(f'Welcome, {form.username.data}! Remember me = {form.remember_me.data}')
+        remember_me = request.form.get('remember_me')
+        flash(f'Welcome, {form.username.data}! Your password={form.password.data}, Remember me = {remember_me}')
+        # flash(f'Welcome, {form.username.data}! Remember me = {form.remember_me.data}')
         return redirect(url_for('index'))
     return render_template('login.html', title='Login page', form=form)

@@ -6,7 +6,7 @@
 <ul class="list-group">
     {% for post in posts %}
     <li class="list-group-item">
-        {{ post.author.username }}
+        <p class="text-muted">{{ post.author.username }}:</p>
         {{ post.body }}
     </li>
     {% endfor %}
