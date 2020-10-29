@@ -8,12 +8,21 @@ body img {
     width: 800px;
 }
 
-.container {
+.container.base {
     max-width: 1500px;
     min-height: 400px;
     margin: 50px auto;
 }
 
+.bg-jumbotron {
+    background-color: #DDF49A;
+}
+
 footer {
-    min-height: 150px;
+    position:absolute;
+    min-height: 80px;
+    width:100%;
+    background-color: #5C928D;
+    padding-top: 30px;
+    bottom:0;
 }
