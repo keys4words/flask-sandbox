@@ -13,4 +13,16 @@ def show_position(username):
     message = f"{username}'s position is {positions}'"
     return message
 
-print(show_position)
+# print(show_position)
+
+def get_user(username):
+    connection = sqlite3.connect('my.db', check_same_thread=False)
+    cursor = connection.cursor()
+    cursor.execute("""SELECT * FROM users where username='{username}';""".format(username=username))
+    
+    user = cursor.fetchone()
+
+    connection.commit()
+    cursor.close()
+    connection.close()
+    return user

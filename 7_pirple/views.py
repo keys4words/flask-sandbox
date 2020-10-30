@@ -1,5 +1,16 @@
 from flask import render_template, request
 from demo import app
+import model
+
+
+def check_user(username, password):
+    user = model.get_user(username)
+    if user:
+        print(user)
+        return (username == user[1]) and (password == user[2])
+    else:
+        return False
+
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -9,9 +20,13 @@ def home():
     else:
         username = request.form.get('username')
         password = request.form.get('password')
-        if username == 'Maxim' and password == 'test':
-            message = model.show_position(username)
-            return render_template('football.html', message=message)
+        user = model.get_user(username)
+        if username == user[1]:
+            if password == user[2]:
+                message = f'You are logged in, {username}!'
+                return render_template('dashboard.html', message=message)
+            else:
+                message = f'User with this login already exists!'
         else:
             message = 'You need authorize before loggin'
             return render_template('index.html', message=message)
@@ -37,3 +52,8 @@ def privacy():
 def terms():
     message = 'Terms of Use page'
     return render_template('terms.html', message=message)
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    message = 'Dashboard page'
+    return render_template('dashboard.html', message=message)

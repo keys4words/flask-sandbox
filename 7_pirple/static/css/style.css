@@ -1,7 +1,10 @@
-body{
-    background-color: #85FFBD;
-    background-image: linear-gradient(45deg, #85FFBD 0%, #FFFB7D 100%);
+nav{
+    background-color: #372C30;
+}
 
+body{
+    background-color: #BEB481;
+    margin-bottom: 120px;
 }
 
 body img {
@@ -15,14 +18,20 @@ body img {
 }
 
 .bg-jumbotron {
-    background-color: #DDF49A;
+    background-color: #9BA789;
+}
+
+.person {
+    width: 80px;
 }
 
 footer {
-    position:absolute;
+    position:fixed;
     min-height: 80px;
-    width:100%;
-    background-color: #5C928D;
-    padding-top: 30px;
+    left: 0;
+    right: 0;
     bottom:0;
+    margin-bottom: 0;
+    background-color: #202020;
+    padding-top: 30px;
 }

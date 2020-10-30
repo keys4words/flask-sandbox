@@ -2,31 +2,23 @@
 
 {% block main %}
 <div class="jumbotron bg-jumbotron">
-    <h1 class="display-4">Wanna visit Baikal Lake?</h1>
-    <form class="form-inline mt-3">
-        <label class="sr-only" for="login">Name</label>
-        <input type="text" class="form-control mb-2 mr-sm-2" id="login" placeholder="Jane Doe" name="login">
-      
-        <label class="sr-only" for="email">Username</label>
-        <div class="input-group mb-2 mr-sm-2">
-          <div class="input-group-prepend">
-            <div class="input-group-text">@</div>
-          </div>
-          <input type="text" class="form-control" id="email" placeholder="Email" name="email">
+    <h1 class="display-4 text-center">Wanna visit Baikal Lake? Signup!</h1>
+    <form class="mt-4" method="POST">
+      <div class="row">
+        <div class="col-4">
+          <input type="text" class="form-control" placeholder="Username" name="username">
         </div>
-      
-        <div class="form-check mb-2 mr-sm-2">
-          <input class="form-check-input" type="checkbox" id="inlineFormCheck">
-          <label class="form-check-label" for="inlineFormCheck">
-            Remember me
-          </label>
+        <div class="col-4">
+          <input type="text" class="form-control" placeholder="Password" name="password">
         </div>
-      
-        <button type="submit" class="btn btn-outline-secondary mb-2">Signup</button>
+        <div class="col-4">
+          <button type="submit" class="btn btn-block btn-success mb-2">Signup</button>
+        </div>
+      </div>
       </form>
 </div>
 
-<h2>Views of Baikal lake</h2>
+<h2 class="display-4 text-center">Views of Baikal Lake</h2>
 <img src="{{ url_for('static', filename='img/bay.jpg') }}" class="my-4">
 <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi distinctio dignissimos amet architecto placeat
     neque nihil laborum modi magnam corrupti iusto, mollitia molestias. Distinctio, fugit accusamus amet voluptatum
