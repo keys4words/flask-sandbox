@@ -1,12 +1,13 @@
 {% extends '_base.html' %}
 
 {% block main %}
+{% if no_form %}
 <div class="jumbotron bg-jumbotron">
     <h1 class="display-4 text-center">Wanna visit Baikal Lake? Signup!</h1>
     <form class="mt-4" method="POST">
       <div class="row">
         <div class="col-4">
-          <input type="text" class="form-control" placeholder="Username" name="username">
+          <input type="text" class="form-control" placeholder="Email" name="email">
         </div>
         <div class="col-4">
           <input type="text" class="form-control" placeholder="Password" name="password">
@@ -15,14 +16,21 @@
           <button type="submit" class="btn btn-block btn-success mb-2">Signup</button>
         </div>
       </div>
-      </form>
+    </form>
 </div>
+{% endif %}
 
 <h2 class="display-4 text-center">Views of Baikal Lake</h2>
-<img src="{{ url_for('static', filename='img/bay.jpg') }}" class="my-4">
+<div class="text-center">
+  <img src="{{ url_for('static', filename='img/bay.jpg') }}" class="my-4">
+</div>
 <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi distinctio dignissimos amet architecto placeat
     neque nihil laborum modi magnam corrupti iusto, mollitia molestias. Distinctio, fugit accusamus amet voluptatum
     repellendus id reprehenderit temporibus harum et illum blanditiis qui ullam quaerat? Consequuntur dolorem voluptates
     obcaecati aut eveniet perspiciatis expedita, adipisci accusamus distinctio.</p>
+<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi distinctio dignissimos amet architecto placeat
+      neque nihil laborum modi magnam corrupti iusto, mollitia molestias. Distinctio, fugit accusamus amet voluptatum
+      repellendus id reprehenderit temporibus harum et illum blanditiis qui ullam quaerat? Consequuntur dolorem voluptates
+      obcaecati aut eveniet perspiciatis expedita, adipisci accusamus distinctio.</p>
 
 {% endblock main %}

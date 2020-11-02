@@ -15,10 +15,10 @@ def show_position(username):
 
 # print(show_position)
 
-def get_user(username):
+def get_user(email):
     connection = sqlite3.connect('my.db', check_same_thread=False)
     cursor = connection.cursor()
-    cursor.execute("""SELECT * FROM users where username='{username}';""".format(username=username))
+    cursor.execute("""SELECT * FROM users where email='{email}';""".format(email=email))
     
     user = cursor.fetchone()
 
