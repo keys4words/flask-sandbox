@@ -6,7 +6,6 @@ app.config['SECRET_KEY'] = 'myVerySecretKey'
 
 
 
-
 from views import *
 
 

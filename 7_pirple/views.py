@@ -1,15 +1,9 @@
-from flask import render_template, request, url_for
+from flask import render_template, request, url_for, session, redirect, g
 from runner import app
 import model
 
 
-def check_user(username, password):
-    user = model.get_user(username)
-    if user:
-        print(user)
-        return (username == user[1]) and (password == user[2])
-    else:
-        return False
+users = model.get_users()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -19,15 +13,11 @@ def home():
         no_form = True
         return render_template('index.html', message=message, no_form=no_form)
     else:
+        login = request.form.get('login')
         email = request.form.get('email')
         password = request.form.get('password')
-        user = model.get_user(email)
-        no_form = False
-        if user:
-            message = f'''User with this login already exists! <a href="{{  url_for('login')  }}>Please login</a>'''
-        else:
-            message = f'User with email ({email}) was successfully signup! Login, please!'
-        
+        user = model.get_user(login)
+        message, no_form=model.signup(login, email, password)
         return render_template('index.html', message=message, no_form=no_form)
 
     # return app.root_path
@@ -52,10 +42,12 @@ def terms():
     message = 'Terms of Use page'
     return render_template('terms.html', message=message)
 
-@app.route('/dashboard', methods=['POST'])
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
+    if 'login' in session:
+        g.user = session['login']
     message = 'Dashboard page'
-    return render_template('dashboard.html', message=message, email=email)
+    return render_template('dashboard.html', message=message)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -63,14 +55,16 @@ def login():
         message = 'Have an account? Login!'
         return render_template('login.html', message=message)
     else:
+        login = request.form.get('login')
         email = request.form.get('email')
         password = request.form.get('password')
-        user = model.get_user(email)
-        if user and password == user[2]:
+        user = model.get_user(login)
+
+        if user and model.check_psw(login):
             message = f'Dashboard Page'
-            return render_template('dashboard.html', message=message, email=user[1])
+            return render_template('dashboard.html', message=message, login=user[1])
         else:
-            message = f'''There is no user with this email! <a href="{{  url_for('login')  }}>Please, sigup!</a>'''
+            message = f'''There is no user with this login! <a href="{{  url_for('login')  }}>Please, sigup!</a>'''
             return render_template('login.html', message=message)
         
 
