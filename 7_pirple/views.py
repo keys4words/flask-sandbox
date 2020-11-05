@@ -10,19 +10,20 @@ users = model.get_users()
 def home():
     if request.method == 'GET':
         message = 'Home Page'
-        no_form = True
-        return render_template('index.html', message=message, no_form=no_form)
+        return render_template('index.html', message=message, showForm=True)
     else:
         login = request.form.get('login')
-        email = request.form.get('email')
         password = request.form.get('password')
-        user = model.get_user(login)
-        message, no_form=model.signup(login, email, password)
-        return render_template('index.html', message=message, no_form=no_form)
+        if model.check_psw(login, password):
+            message = 'Hello, ' + model.get_user(login)[1]
+            return render_template('football.html', message=message)
+        else:
+            error = 'You need authorize before'
+        return render_template('index.html', message=error, showForm=False)
 
     # return app.root_path
 
-@app.route('/football', methods=['GET', 'POST'])
+@app.route('/football', methods=['POST'])
 def football():
     message = 'Football Page'
     return render_template('football.html', message=message)
@@ -44,10 +45,13 @@ def terms():
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
+    user=g.user
     if 'login' in session:
-        g.user = session['login']
-    message = 'Dashboard page'
-    return render_template('dashboard.html', message=message)
+        message = 'Dashboard page'
+        return render_template('dashboard.html', message=message, user=user)
+    else:
+        message = 'You need to authorize before'
+        return redirect(url_for('home'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -56,11 +60,10 @@ def login():
         return render_template('login.html', message=message)
     else:
         login = request.form.get('login')
-        email = request.form.get('email')
         password = request.form.get('password')
         user = model.get_user(login)
 
-        if user and model.check_psw(login):
+        if user and model.check_psw(login, password):
             message = f'Dashboard Page'
             return render_template('dashboard.html', message=message, login=user[1])
         else:
@@ -71,3 +74,16 @@ def login():
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     pass
+
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'GET':
+        message = 'Signup Page'
+        return render_template('signup.html', message=message)
+    else:
+        login = request.form.get('login')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        msg = model.signup(login, email, password)
+        return render_template('signup.html', message=msg)
