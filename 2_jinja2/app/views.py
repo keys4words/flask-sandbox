@@ -23,3 +23,12 @@ def index():
 
 
     return render_template('index.html', title=title, user=user, posts=posts)
+
+@app.route('/layout')
+def layout():
+    return render_template('layout.html', title='Layout')
+
+
+@app.route('/child')
+def child():
+    return render_template('child.html', title='Child')
