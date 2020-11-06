@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home page</title>
+</head>
+<body>
+    <h1>Home Page</h1>
+    <!-- <p>{{ content }}</p> -->
+    <p>{{ raw }}</p>
+    <hr>
+    <!-- {% for x in range(10) %}
+    {% if x % 2 == 1 %}
+        <p>{{ x }}</p>
+    {% endif %}
+    {% endfor %} -->
+    <ul>
+    {% for el in content %}
+        <li>{{ el }}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
