@@ -16,11 +16,11 @@ def login():
         user = request.form['nm']
         session.permanent = True
         session['user'] = user
-        flash('You are logged in!')
+        flash('You are logged in!', category='info')
         return redirect(url_for('user'))
     else:
         if 'user' in session:
-            flash('Additional authorization is not needed!')
+            flash('Additional authorization is not needed!', category='danger')
             return redirect(url_for('user'))
 
         return render_template('login.html')
@@ -29,7 +29,7 @@ def login():
 @app.route('/logout')
 def logout():
     user = session['user']
-    flash(f'{user.capitalize()}, you have been log out!', 'info')
+    flash(f'{user.capitalize()}, you have been log out!', category='info')
     session.pop('user', None)
     return redirect(url_for('login'))
 
@@ -40,7 +40,7 @@ def user():
         user = session['user']
         return render_template('user.html', user=user)
     else:
-        flash('You need login before!')
+        flash('You need login before!', category='danger')
         return redirect(url_for('login'))
 
 
