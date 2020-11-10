@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request, session, flash
+from flask import Flask, redirect, url_for, render_template, request, session, flash, abort
 from datetime import timedelta
 
 app = Flask(__name__)
@@ -41,6 +41,7 @@ def user():
         return render_template('user.html', user=user)
     else:
         flash('You need login before!', category='danger')
+        # abort(401)
         return redirect(url_for('login'))
 
 

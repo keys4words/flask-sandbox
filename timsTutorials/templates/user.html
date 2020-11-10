@@ -16,5 +16,14 @@
 {% endfor %}
 {% endif %}
 {% endwith %}
+<h3>Your ToDo's:</h3>
+<ul class="list-group">
+  <li class="list-group-item">{{ todo }}</li>
+</ul>
 
+<h3>Add new ToDo:</h3>
+<form action="#" method="post">
+  <input type="text" name="todo" placeholder="Enter Your ToDo">
+  <input type="submit" value="Add">
+</form>
 {% endblock %}
