@@ -2,6 +2,9 @@ import os
 from flask import Flask, redirect, url_for, render_template, request, session, flash, abort
 from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+
+
 
 app = Flask(__name__)
 app.secret_key = 'something ultimately secret!!!'
@@ -12,7 +15,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'us
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-
+Migrate(app, db)
 
 ################################
 # models
@@ -122,7 +125,7 @@ def user():
                 flash('Your ToDo was added!', category='info')
             else:
                 get_todo_id = [el for el in request.form.keys()][0][-1]
-                delete_todo = ToDo.query.filter_by(id=get_todo_id).first()
+                delete_todo = ToDo.query.get(get_todo_id)
                 db.session.delete(delete_todo)
                 db.session.commit()
                 flash('Your ToDo was removed!')

@@ -1,19 +1,51 @@
 {% extends '_base.html' %}
 
 {% block main %}
-    <div class="text-center">
-        <img src="{{ url_for('static', filename='img/person.png') }}" class="person"
-    </div>
+<div class="text-center">
+    <img src="{{ url_for('static', filename='img/person.png') }}" class="person" </div>
 
     <h2 class="display-3 text-center my-5 bg-warning">Todo's of {{ user }}</h2>
 
-    <ul class="list-group w-50">
-        <li class="list-group-item disabled" aria-disabled="true">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Morbi leo risus</li>
-        <li class="list-group-item">Porta ac consectetur ac</li>
-        <li class="list-group-item">Vestibulum at eros</li>
-    </ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Task</th>
+                <th scope="col">Priority</th>
+                <th scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if todos %}
+            {% for index, todo in todos %}
+            <tr>
+                <th scope="row">{{ index+1 }}</th>
+                <td>{{ todo.task }}</td>
+                <td>{{ todo.priority }}</td>
+                <td>
+                    <form method="POST"><input type="submit" name="btn{{ todo.id }}"
+                            class="btn btn-danger btn-sm delete" value="REMOVE"></form>
+                </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
 
-    
+    <h3 class="mt-5">Add new ToDo:</h3>
+    <form class="mt-4" method="post">
+        <div class="row">
+            <div class="col-4">
+                <input type="text" class="form-control" name="todo" placeholder="Enter Your ToDo">
+            </div>
+            <div class="col-4">
+                <input type="text" class="form-control" name="priority" placeholder="Enter priority of Your ToDo">
+            </div>
+            <div class="col-4">
+                <input type="submit" class="btn btn-success btn-block" value="Add">
+            </div>
+        </div>
+    </form>
+
+</div>
 {% endblock main %}
