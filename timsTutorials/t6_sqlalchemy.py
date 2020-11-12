@@ -35,10 +35,12 @@ class ToDo(db.Model):
     __tablename__ = 'todo'
     id = db.Column('todo_id', db.Integer, primary_key=True)
     task = db.Column('todo_name', db.Text)
+    priority = db.Column('priority', db.String(100))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    def __init__(self, task, user_id):
+    def __init__(self, task, priority, user_id):
         self.task = task
+        self.priority = priority
         self.user_id = user_id
 
     def __repr__(self):
@@ -52,11 +54,11 @@ def seed_db(db):
     db.session.add_all(data_users)
     db.session.commit()
     
-    james_todo1 = ToDo('Sex with blond', james.id)
-    james_todo2 = ToDo('Kill the spy', james.id)
-    tyson_todo1 = ToDo('first round', tyson.id)
-    tyson_todo2 = ToDo('second round', tyson.id)
-    tyson_todo3 = ToDo('third round', tyson.id)
+    james_todo1 = ToDo('Sex with blond', 'high', james.id)
+    james_todo2 = ToDo('Kill the spy', 'high', james.id)
+    tyson_todo1 = ToDo('first round', 'middle', tyson.id)
+    tyson_todo2 = ToDo('second round', 'middle', tyson.id)
+    tyson_todo3 = ToDo('third round', 'low', tyson.id)
     
     data_todos = [james_todo1, james_todo2, tyson_todo1, tyson_todo2, tyson_todo3]
     db.session.add_all(data_todos)
@@ -110,12 +112,20 @@ def user():
         user = session['user']
         
         if request.method == 'POST':
-            task_from_form = request.form['todo']
-            user_from_db = Users.query.filter_by(name=user).first()
-            new_todo = ToDo(task_from_form, user_from_db.id)
-            db.session.add(new_todo)
-            db.session.commit()
-            flash('Your ToDo was added!', category='info')
+            if 'todo' in request.form:
+                task_from_form = request.form['todo']
+                priority_from_form = request.form['priority']
+                user_from_db = Users.query.filter_by(name=user).first()
+                new_todo = ToDo(task_from_form, priority_from_form, user_from_db.id)
+                db.session.add(new_todo)
+                db.session.commit()
+                flash('Your ToDo was added!', category='info')
+            else:
+                get_todo_id = [el for el in request.form.keys()][0][-1]
+                delete_todo = ToDo.query.filter_by(id=get_todo_id).first()
+                db.session.delete(delete_todo)
+                db.session.commit()
+                flash('Your ToDo was removed!')
         
         todos = Users.query.filter_by(name=user).first().todos
         return render_template('user.html', user=user, todos=enumerate(todos))
