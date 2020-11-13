@@ -5,7 +5,7 @@ from models import Users, ToDo
 
 @app.route('/')
 def home():
-    return render_template('index.html', message='Home page')
+    return render_template('index.html')
 
 # @app.route('/football', methods=['POST'])
 # def football():
@@ -14,18 +14,15 @@ def home():
 
 @app.route('/about')
 def about():
-    message = 'About page'
-    return render_template('about.html', message=message)
+    return render_template('about.html')
 
 @app.route('/privacy')
 def privacy():
-    message = 'Privacy Policy Page'
-    return render_template('privacy.html', message=message)
+    return render_template('privacy.html')
 
 @app.route('/terms')
 def terms():
-    message = 'Terms of Use page'
-    return render_template('terms.html', message=message)
+    return render_template('terms.html')
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -43,7 +40,7 @@ def signup():
         existing_user = Users.query.filter_by(login=login).first()
         if existing_user:
             flash('User with such login already exists!', category='danger')
-            return render_template('signup.html', message='Signup Page')
+            return render_template('signup.html')
         else:
             usr = Users(login, email, password)
             db.session.add(usr)
@@ -66,16 +63,16 @@ def login():
                 return redirect(url_for('dashboard', user=login))
             else:
                 flash('Wrong password', category='danger')
-                return render_template('login.html', message='Login page')
+                return render_template('login.html')
         else:
             flash('There is no user with such login! Signup first!', category='danger')
-            return render_template('signup.html', message='Signup Page')
+            return render_template('signup.html')
     else:
         if 'login' in session:
             flash('Additional authorization is not needed!', category='danger')
             return redirect(url_for('dashboard', user=session['login']))
         else:
-            return render_template('login.html', message='Login page')
+            return render_template('login.html')
 
 
 @app.route('/dashboard', methods=['GET', 'POST'])
@@ -103,14 +100,14 @@ def dashboard():
     else:
         flash('You need login before!', category='danger')
         # abort(401)
-        return redirect(url_for('login', message='Login page'))
+        return redirect(url_for('login'))
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     login = session['login']
     flash(f'{login.capitalize()}, you have been log out!', category='info')
     session.pop('login', None)
-    return redirect(url_for('login', message='Login page'))
+    return redirect(url_for('login'))
 
 @app.errorhandler(404)
 def pageNotFound(error):

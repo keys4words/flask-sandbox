@@ -47,7 +47,7 @@
         </div>
     </nav>
     <div class="container base">
-        <h2 class="display-3 text-center mb-4">{{ message }}</h2>
+        
         {% with flash_messages = get_flashed_messages(True) %}
         {% if flash_messages %}
             {% for cat, msg in flash_messages %}
