@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Main Page</h1>
+    <form action="/add_message" method="post">
+        <input type="text" name="text" placeholder="Message">
+        <input type="text" name="tag" placeholder="Tag">
+        <button type="submit">Add message</button>
+    </form>
+
+    <h3>Messages</h3>
+    {% for message in messages %}
+    <div class="">{{ message.text }}&nbsp;<b>#{% for tag in message.tags %}{{ tag.text }} {% endfor %}</b></div>
+    {% endfor %}
+
+</body>
+</html>
