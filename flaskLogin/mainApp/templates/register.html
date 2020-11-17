@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Register Page</h1>
+    {% with flash_messages = get_flashed_messages() %}
+        {% if flash_messages %}
+            {% for msg in flash_messages %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>{{ msg }}!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="" method="post">
+        <input type="text" name="login" placeholder="Login">
+        <input type="password" name="password" placeholder="Password">
+        <input type="password" name="password2" placeholder="Retype Password">
+        <input type="submit" value="Register">
+    </form>
+    <p><a href="{{ url_for('login') }}">Already have account?</a></p>
+</body>
+</html>
