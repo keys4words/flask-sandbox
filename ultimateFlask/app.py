@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, url_for, redirect
 
 app = Flask(__name__)
 
@@ -12,13 +12,15 @@ def index():
     return '<h1>Index Page</h1>'
 
 
-@app.route('/home', methods=['GET', 'POST'])
-def home():
-    return 'Home Page'
+@app.route('/home', methods=['GET', 'POST'], defaults={'name': 'John Doe'})
+def home(name):
+    return '<h1>Home Page for {}</h1>'.format(name)
+
 
 @app.route('/json')
 def json():
     return jsonify({'key': 'value', 'key2': [213, 99, 9]})
+
 
 @app.route('/query')
 def query():
@@ -26,20 +28,45 @@ def query():
     location = request.args.get('location')
     return f'<h1>Query Page for {name} with location in {location}</h1>'
 
-@app.route('/theform')
+
+# @app.route('/theform')
+# def theform():
+#     return '''<form method="POST" action="/process">
+#                 <input type="text" name="name">
+#                 <input type="text" name="location">
+#                 <input type="submit" value="Submit">
+#               </form>'''
+
+
+# @app.route('/process', methods=['POST'])
+# def process():
+#     name = request.form['name']
+#     location = request.form['location']
+#     return f"<h1>Hello {name}! You are from {location}</h1>"
+
+
+@app.route('/theform', methods=['GET', 'POST'])
 def theform():
-    return '''<form method="POST" action="/process">
+    if request.method == 'GET':
+        return '''<form method="POST">
                 <input type="text" name="name">
                 <input type="text" name="location">
                 <input type="submit" value="Submit">
               </form>'''
+    else:
+        name = request.form['name']
+        location = request.form['location']
+        # return f"<h1>Hello {name}! You are from {location}</h1>"
+        return redirect(url_for('home', name=name))
 
 
-@app.route('/process', methods=['POST'])
-def process():
-    name = request.form['name']
-    location = request.form['location']
-    return f"<h1>Hello {name}! You are from {location}</h1>"
+@app.route('/processjson', methods=['POST'])
+def processjson():
+    data = request.get_json()
+    name = data['name']
+    location = data['location']
+    randomList = data['randomList']
+    return jsonify({'result': 'Success!', 'name': name, 'location': location, 'randomElement': randomList[1]})
 
 
 
