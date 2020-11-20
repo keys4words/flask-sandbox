@@ -1,0 +1,17 @@
+<h1>Home Page for {{ name }}</h1>
+
+{% if display %}
+    <h2>Yes</h2>
+{% else %}
+    <h2>No</h2>
+{% endif %}
+<hr>
+<ul>
+{% for el in myList %}
+    <li>{{ el }}</li>
+{% endfor %}
+<hr>
+{% for el in myDict %}
+    <li>{{ el.name }}</li>
+{% endfor %}
+</ul>

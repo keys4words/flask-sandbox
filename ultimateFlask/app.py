@@ -1,6 +1,8 @@
-from flask import Flask, jsonify, request, url_for, redirect
+from flask import Flask, jsonify, request, url_for, redirect, session, render_template
 
 app = Flask(__name__)
+app.config['DEBUG'] = True
+app.config['SECRET_KEY'] = 'asldmfa4u@$#52342j421nk-21o31'
 
 # @app.route('/', defaults={'name': 'John Dow'})
 # @app.route('/<string:name>')
@@ -9,17 +11,23 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    session.pop('name', None)
     return '<h1>Index Page</h1>'
 
-
 @app.route('/home', methods=['GET', 'POST'], defaults={'name': 'John Doe'})
+@app.route('/home/<string:name>', methods=['GET', 'POST'])
 def home(name):
-    return '<h1>Home Page for {}</h1>'.format(name)
+    session['name'] = name
+    return render_template('home.html', name=name, display=False, myList=['one', 'two', 'three', 'four'], myDict=[{'name': 'Jowe'}, {'name': 'Jeremy'}])
 
 
 @app.route('/json')
 def json():
-    return jsonify({'key': 'value', 'key2': [213, 99, 9]})
+    if 'name' in session:
+        name = session['name']
+    else:
+        name = 'Not in session'
+    return jsonify({'key': 'value', 'key2': [213, 99, 9], 'name': name})
 
 
 @app.route('/query')
@@ -48,11 +56,7 @@ def query():
 @app.route('/theform', methods=['GET', 'POST'])
 def theform():
     if request.method == 'GET':
-        return '''<form method="POST">
-                <input type="text" name="name">
-                <input type="text" name="location">
-                <input type="submit" value="Submit">
-              </form>'''
+        return render_template('form.html')
     else:
         name = request.form['name']
         location = request.form['location']
@@ -71,4 +75,4 @@ def processjson():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
