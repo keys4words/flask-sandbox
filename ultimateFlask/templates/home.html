@@ -1,4 +1,10 @@
-<h1>Home Page for {{ name }}</h1>
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+
+{% block content %}
+<h2>Home Page for {{ name }}</h2>
 
 {% if display %}
     <h2>Yes</h2>
@@ -15,3 +21,7 @@
     <li>{{ el.name }}</li>
 {% endfor %}
 </ul>
+<img src="{{ url_for('static', filename='img/bear.jpg')}}">
+
+{{ super() }}
+{% endblock %}
