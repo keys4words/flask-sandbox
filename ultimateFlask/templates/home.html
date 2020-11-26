@@ -12,6 +12,14 @@
     <h2>No</h2>
 {% endif %}
 <hr>
+<h2>Database results:</h2>
+    <ul>
+        {% for el in results %}
+            <li>{{ el.id }}: {{ el.name }} from {{ el.location }}</li>
+        {% endfor %}
+    </ul>
+
+<hr>
 <ul>
 {% for el in myList %}
     <li>{{ el }}</li>
