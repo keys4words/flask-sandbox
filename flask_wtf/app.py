@@ -63,11 +63,14 @@ def index():
     years = {'years': [g1, g2, g3]}
 
     form = NameForm(obj=default_user, data=years)
+    
+    del form.mobile_phone
+
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        output = '<h1>'
 
+        output = '<h1>'
         for el in form.years:
             output += 'Year: {}<br>'.format(el.year.data)
             output += 'Total: {}<br>'.format(el.total.data)
@@ -76,6 +79,25 @@ def index():
         return output
         # return f'Form submitted with username: {username} and password: {password}'
     return render_template('index.html', form=form)
+
+
+@app.route('/dynamic', methods=['GET', 'POST'])
+def dynamic():
+    class DynamicForm(FlaskForm):
+        pass
+
+    DynamicForm.name = StringField('name')
+    names = ['first_name', 'middle_name', 'last_name']
+    for el in names:
+        setattr(DynamicForm, el, StringField(el))
+
+    form = DynamicForm()
+
+    if form.validate_on_submit():
+
+        return f'Dynamic form submitted with name: {form.name.data}'
+
+    return render_template('dynamic.html', form=form, names=names)
 
 
 

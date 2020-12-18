@@ -1,0 +1,22 @@
+{% from '_renderfield.html' import renderfield %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySite</title>
+</head>
+<body>
+    <h1>WTF-Form Extension</h1>
+    <form action="" method="post">
+        {{ form.csrf_token }}
+        {{ renderfield(form.name) }}
+        
+        {% for el in names %}
+        {{ renderfield(form[el])}}
+        {% endfor %}
+                
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

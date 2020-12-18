@@ -22,7 +22,9 @@
         {{ renderfield(form.email) }}
 
         {{ renderfield(form.home_phone) }}
-        {{ renderfield(form.mobile_phone) }}
+        {% if form.mobile_phone %}
+            {{ renderfield(form.mobile_phone) }}
+        {% endif %}
 
         {% for field in form.years %}
             {{ renderfield(field) }}
