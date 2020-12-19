@@ -8,14 +8,14 @@ from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, PasswordField, IntegerField, BooleanField, Form, FormField, FieldList
 from wtforms.validators import InputRequired, Length, AnyOf, Email
 
-
+from config import RECAPTCHA_PRIVATE_KEY, RECAPTCHA_PUBLIC_KEY
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['WTF_CSRF_TIME_LIMIT'] = 3600
-app.config['RECAPTCHA_PUBLIC_KEY'] = '6LebywwaAAAAAG2SLPpnbmdwR2CRGTi1MZ-kmAyi'
-app.config['RECAPTCHA_PRIVATE_KEY'] = '6LebywwaAAAAALNh5E3HO9Wk1-wwQy_RhPD9l83L'
+app.config['RECAPTCHA_PUBLIC_KEY'] = RECAPTCHA_PUBLIC_KEY
+app.config['RECAPTCHA_PRIVATE_KEY'] = RECAPTCHA_PRIVATE_KEY
 app.config['TESTING'] = True
 
 #############################
