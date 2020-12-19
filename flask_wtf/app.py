@@ -4,14 +4,19 @@ import os
 from collections import namedtuple
 
 from flask import Flask, render_template
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, PasswordField, IntegerField, BooleanField, Form, FormField, FieldList
 from wtforms.validators import InputRequired, Length, AnyOf, Email
+
+
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['WTF_CSRF_TIME_LIMIT'] = 3600
+app.config['RECAPTCHA_PUBLIC_KEY'] = '6LebywwaAAAAAG2SLPpnbmdwR2CRGTi1MZ-kmAyi'
+app.config['RECAPTCHA_PRIVATE_KEY'] = '6LebywwaAAAAALNh5E3HO9Wk1-wwQy_RhPD9l83L'
+app.config['TESTING'] = True
 
 #############################
 class PhoneForm(Form):
@@ -39,6 +44,7 @@ class LoginForm(FlaskForm):
 class NameForm(LoginForm):
     first_name = StringField('first name')
     last_name = StringField('last name')
+    recaptcha = RecaptchaField()
 
 
 class User:
