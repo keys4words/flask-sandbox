@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask-WTF Example</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+    <div class="container theme-showcase" role="main">
+        <h2>Email: {{ email }}</h2>
+        <h2>Password: {{ password }}</h2>
+        <h2>Textarea: {{ textarea }}</h2>
+        <h2>Radios: {{ radios }}</h2>
+        <h2>Selects: {{ selects }}</h2>
+    </div>
+</body>
+</html>

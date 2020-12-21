@@ -1,0 +1,37 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}
+MySite
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>WTF-Form + Bootstrap Extension</h1>
+    <form action="/" method="post">
+        {{ form.csrf_token }}
+        <!-- {{ wtf.form_field(form.username) }} -->
+        <!-- {{ wtf.form_field(form.password) }} -->
+        {{ form.username }}
+        <ul>
+            {% for error in form.username.errors %}
+                <li style="color: red;">{{ error }}</li>
+            {% endfor %}
+        </ul>
+        
+        {{ form.password }}
+        <ul>
+            {% for error in form.password.errors %}
+                <li style="color: red;">{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {{ form.entrydate }}
+        <ul>
+            {% for error in form.entrydate.errors %}
+                <li style="color: red;">{{ error }}</li>
+            {% endfor %}
+        </ul>
+        <input type="submit" class="btn btn-primary" value="Submit">
+    </form>
+</div>
+{% endblock %}
