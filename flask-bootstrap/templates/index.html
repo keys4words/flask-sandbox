@@ -1,0 +1,15 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Flask-Bootstrap App
+{% endblock %}
+
+{% block content %}
+<h1>This is inside the content block</h1>
+<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque ipsa impedit neque nemo quibusdam ut expedita animi magnam mollitia quisquam?</p>
+{% endblock %}
+
+{% block scripts %}
+<script src="script.js"></script>
+{{ super() }}
+{% endblock %}
