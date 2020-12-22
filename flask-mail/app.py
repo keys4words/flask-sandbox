@@ -11,9 +11,13 @@ mail = Mail(app)
 @app.route('/')
 def index():
     msg = Message('Парсинг zakupki.gov', 
-                    recipients=['zharnikov.m@yandex.ru'])
-    msg.add_recipient('info@novmet.ru')
-    msg.html = '<h1>Заголовок письма</h1><p>Это текст письма</p>'
+                    recipients=['zharnikov.m@yandex.ru', 'info@novmet.ru'],
+                    # body='',
+                    html='<h1>Заголовок письма</h1><p>Это текст письма</p>',
+                    # cc=[],
+                    # bcc=[]
+                    )
+
     with app.open_resource('requirements.txt') as f:
         msg.attach('requirements.txt', 'text/html', f.read())
     mail.send(msg)
