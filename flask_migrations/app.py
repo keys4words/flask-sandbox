@@ -24,7 +24,7 @@ manager.add_command('db', MigrateCommand)
 class Member(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
-    location = db.Column(db.String(100))
+    # location = db.Column(db.String(100))
 
 
 class Order(db.Model):
