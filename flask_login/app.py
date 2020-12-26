@@ -1,11 +1,9 @@
 import os
 
-
-
 from urllib.parse import urlparse, urljoin
 
 from flask import Flask, render_template, request, session, redirect
-from flask_login import LoginManager, UserMixin, login_user, login_required, current_user, logout_user
+from flask_login import LoginManager, UserMixin, login_user, login_required, current_user, logout_user, fresh_login_required
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -20,6 +18,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message = 'You can\'t access this page! You need to login first!'
+login_manager.refresh_view = 'login'
+login_manager.needs_refresh_handler = 'You need login to refresh your login'
 db = SQLAlchemy(app)
 
 ###############################
@@ -70,6 +70,11 @@ def logout():
     logout_user()
     return '<h1>You are logged out!</h1>'
 
+
+@app.route('/fresh')
+@fresh_login_required
+def fresh():
+    return '<h1>You have a fresh session!</h1>'
 
 #################################
 
