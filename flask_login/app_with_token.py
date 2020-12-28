@@ -8,13 +8,14 @@ from flask_sqlalchemy import SQLAlchemy
 
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(36)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'fl2.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['TIME_TO_EXPIRE'] = 3600
+app.config['TIME_TO_EXPIRE'] = 60
 
 db = SQLAlchemy(app)
 login_manager = LoginManager()
@@ -37,7 +38,7 @@ class User(db.Model, UserMixin):
 def load_user(session_token):
     user = User.query.filter_by(session_token=session_token).first()
     try:
-        serializer.loads(session_token, max_age=60)
+        serializer.loads(session_token, max_age=app.config['TIME_TO_EXPIRE'])
     except SignatureExpired:
         user.session_token = None
         db.session.commit()
