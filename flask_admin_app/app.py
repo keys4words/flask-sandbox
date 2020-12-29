@@ -51,6 +51,11 @@ class UserView(ModelView):
 
     inline_models = [Comment]
 
+    def is_accessible(self):
+        return False
+
+    def inaccessible_callback(self, name, **kwargs):
+        return '<h1>You are not logged in!</h1>'
 
 class NotificationsView(BaseView):
     @expose('/')
