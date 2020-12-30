@@ -1,9 +1,10 @@
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from werkzeug.security import generate_password_hash
 from flask_admin.contrib.fileadmin import FileAdmin
+from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user
 from os.path import dirname, join
 
 
@@ -12,9 +13,16 @@ app.config.from_object('config')
 
 db = SQLAlchemy(app)
 admin = Admin(app, template_mode='bootstrap3')
+login_manager = LoginManager(app)
 
 
-class User(db.Model):
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.filter_by(id=int(user_id)).first()
+
+
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(128))
     password = db.Column(db.String(256))
@@ -52,7 +60,7 @@ class UserView(ModelView):
     inline_models = [Comment]
 
     def is_accessible(self):
-        return False
+        return current_user.is_authenticated
 
     def inaccessible_callback(self, name, **kwargs):
         return '<h1>You are not logged in!</h1>'
@@ -69,6 +77,21 @@ admin.add_view(CommentView(Comment, db.session))
 path = join(dirname(__file__), 'uploads')
 admin.add_view(FileAdmin(path, '/uploads/', name='Uploads'))
 admin.add_view(NotificationsView(name='Notifications', endpoint='notify'))
+
+
+@app.route('/login')
+def login():
+    user = User.query.filter_by(id=1).first()
+    login_user(user)
+    return redirect(url_for('admin.index'))
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('admin.index'))
+
+
 
 
 if __name__ == "__main__":
