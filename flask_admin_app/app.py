@@ -8,6 +8,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, curren
 from os.path import dirname, join
 
 
+
 app = Flask(__name__)
 app.config.from_object('config')
 
