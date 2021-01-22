@@ -1,6 +1,6 @@
 from flask import url_for, render_template, redirect, request, session, flash
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 
 from mainApp import app, db
 from mainApp.models import Message, User
@@ -14,7 +14,10 @@ def index():
 @app.route('/main')
 @login_required
 def main():
-    return render_template('main.html', messages=Message.query.all())
+    if current_user.login == 'maxim':
+        return render_template('main.html', messages=Message.query.all())
+    return 'Nope! You have no access to this page!'
+
 
 
 @app.route('/add_message', methods=['POST'])
