@@ -65,7 +65,7 @@
 				var itemNum = event.data.num
 				var newValue = $("#INPUT-"+itemNum).val()
 
-				$.get("/API/editItem/"+itemNum+"/"+newValue,
+				$.get("/API/edititem/"+itemNum+"/"+newValue,
 				function(data){
 					//Runs when the request is completed
 					$("#EDIT-"+itemNum).css({"display":"none"})

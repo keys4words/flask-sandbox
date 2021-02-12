@@ -75,7 +75,7 @@ def logout():
 @routes.route('/addlist')
 def add_list():
     new_list = TodoList()
-    new_list.name = "New Tod List"
+    new_list.name = "New Todo List"
     db.session.add(new_list)
     db.session.commit()
     return redirect(url_for('routes.show_list'))
@@ -90,3 +90,30 @@ def view_list(listid):
     if list is None:
         return abort()
     return render_template('viewlist.html', todolist=list)
+
+
+@routes.route('/API/additem/<listid>/<item>')
+def add_item(listid, item):
+    if listid is None or item is None:
+        return abort()
+    list = TodoList.query.filter_by(id=listid).first()
+    if list is None:
+        return abort()
+
+    newItem = TodoItem(list=list, description=item)
+    db.session.add(newItem)
+    db.session.commit()
+    return redirect(url_for('routes.view_list', listid=listid))
+
+
+@routes.route('/API/edititem/<itemID>/<newValue>')
+def edit_item(itemID, newValue):
+    if itemID is None or newValue is None:
+        return jsonify(success=False)
+    item = TodoItem.query.filter_by(id=itemID).first()
+    if item is None:
+        return jsonify(success=False)
+    
+    item.description = newValue
+    db.session.commit()
+    return jsonify(success=True)
