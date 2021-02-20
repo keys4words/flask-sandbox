@@ -10,7 +10,7 @@ login.login_view = "routes.login"
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_pyfile('config.cfg')
+    app.config.from_object('config.BaseConfig')
     db.init_app(app)
     login.init_app(app)
 
